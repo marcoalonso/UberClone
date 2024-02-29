@@ -26,7 +26,14 @@ class LocationSearchViewModel: NSObject, ObservableObject {
         searchCompleter.delegate = self
         searchCompleter.queryFragment = queryFragment
     }
+    
+    //    MARK: - Helpers
+    func selectLocation(_ location: String) {
+        self.selectedLocation = location
+        print("Debug: selectedLocation \(self.selectedLocation)")
+    }
 }
+
 //    MARK: - LocalSearchCompleterDelegate
 
 extension LocationSearchViewModel: MKLocalSearchCompleterDelegate {
