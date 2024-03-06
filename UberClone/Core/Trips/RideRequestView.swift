@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct RideRequestView: View {
+    @State private var selectedRideType: RideType = .uberX
     var body: some View {
         VStack {
             Capsule()
@@ -76,24 +77,31 @@ struct RideRequestView: View {
             
             ScrollView(.horizontal, showsIndicators: false) {
                 HStack(spacing: 12.0) {
-                    ForEach(0 ..< 4, id: \.self) { _ in
+                    ForEach(RideType.allCases) { type in
                         VStack {
-                            Image("uber-x")
+                            Image(type.imageName)
                                 .resizable()
                                 .scaledToFit()
                             
-                            VStack(spacing: 4.0) {
-                                Text("UberX")
+                            VStack(alignment: .leading, spacing: 4.0) {
+                                Text(type.description)
                                     .font(.system(size: 14, weight: .semibold))
                                 
                                 Text("145.56")
                                     .font(.system(size: 14, weight: .semibold))
                             }
-                            .padding(8)
+                            .padding()
                         }
                         .frame(width: 112, height: 140)
-                        .background(Color(.systemGroupedBackground))
-                        .cornerRadius(12)
+                        .foregroundColor(type == selectedRideType ? .white : .black)
+                        .background(Color(type == selectedRideType ? .systemBlue : .systemGroupedBackground))
+                        .scaleEffect(type == selectedRideType ? 1.15 : 1.0)
+                        .cornerRadius(10)
+                        .onTapGesture {
+                            withAnimation(.spring()) {
+                                selectedRideType = type
+                            }
+                        }
                     }
                 }
             }
